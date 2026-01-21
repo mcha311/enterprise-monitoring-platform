@@ -1,75 +1,166 @@
-
 # Enterprise Monitoring Platform
 
-A production-ready, real-time monitoring system for managing robots, servers, and sensors with enterprise-grade infrastructure.
+Real-time device monitoring system built for **Bear Robotics**, **Chartmetric**, and **Platoon** internship applications.
+
+## 🎯 Project Goal
+Demonstrate full-stack development skills with modern infrastructure practices in 7 days.
+
+## 🛠 Tech Stack
+
+### Backend
+- **Python 3.11** - Core language
+- **FastAPI** - High-performance API framework
+- **SQLAlchemy** - ORM for database operations
+- **MySQL 8.0** - Relational database
+- **PyMySQL** - MySQL driver
+
+### Frontend
+- **React 18** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Fast build tool
+- **TailwindCSS** - Utility-first CSS
+- **Axios** - HTTP client
+- **Lucide React** - Icon library
+
+### Infrastructure
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Docker & Docker Compose
-- Node.js 18+ (for local frontend development)
-- Python 3.11+ (for local backend development)
+- Node.js 18+
+- Git
 
-### Run with Docker (Recommended)
+### Installation
+
+1. Clone the repository:
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/enterprise-monitoring-platform.git
+git clone https://github.com/mcha311/enterprise-monitoring-platform.git
 cd enterprise-monitoring-platform
-
-# Start all services
-docker-compose up -d
-
-# Check logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
 ```
 
-Access the application:
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8000
-- API Docs: http://localhost:8000/docs
-
-### Local Development
-
-**Backend:**
+2. Start Backend + MySQL:
 ```bash
-cd backend
-pip install -r requirements.txt
-cp .env.example .env
-# Edit .env with your MySQL credentials
-uvicorn app.main:app --reload
+docker-compose up -d
 ```
 
-**Frontend:**
+3. Start Frontend:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-## 🏗️ Architecture
+### Access Points
+- **Frontend Dashboard**: http://localhost:5173
+- **API Documentation**: http://localhost:8000/docs
+- **API Health Check**: http://localhost:8000/health
 
-### Tech Stack
-- **Backend:** FastAPI (Python)
-- **Frontend:** React + TypeScript + TailwindCSS
-- **Database:** MySQL 8.0
-- **Containerization:** Docker
+## 📊 Features
 
-### Features
-- ✅ Real-time device monitoring
-- ✅ RESTful API with auto-generated docs
-- ✅ Responsive dashboard UI
-- ✅ CRUD operations for devices
-- ✅ Auto-refresh every 5 seconds
-- ✅ Docker containerization
-- ✅ Production-ready structure
+### Day 1 (Completed ✅)
+- [x] Full-stack project setup
+- [x] FastAPI backend with MySQL integration
+- [x] React + TypeScript frontend
+- [x] Docker containerization
+- [x] RESTful API (CRUD operations)
+- [x] Real-time dashboard UI
+- [x] Responsive card layout
+- [x] Auto-refresh every 5 seconds
 
-## 📊 API Endpoints
+## 🎨 Screenshots
 
-- `GET /api/devices` - List all devices
-- `GET /api/devices/{id}` - Get device by ID
-- `POST /api/devices` - Create new device
-- `PUT /api/devices/{id}` - Update device
-- `DELETE /api/devices/{id}` - Delete device
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### API Documentation
+![API Docs](screenshots/api-docs.png)
+
+## 🏗 Project Structure
+```
+enterprise-monitoring-platform/
+├── backend/
+│   ├── app/
+│   │   ├── main.py           # FastAPI application
+│   │   ├── database.py       # Database configuration
+│   │   ├── models.py         # SQLAlchemy models
+│   │   ├── schemas.py        # Pydantic schemas
+│   │   └── routers/
+│   │       └── devices.py    # Device endpoints
+│   ├── requirements.txt
+│   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   │   ├── App.tsx
+│   │   ├── main.tsx
+│   │   └── components/
+│   │       └── Dashboard.tsx
+│   ├── package.json
+│   └── vite.config.ts
+└── docker-compose.yml
+```
+
+## 🔄 API Endpoints
+
+- `GET /` - Root endpoint
+- `GET /health` - Health check
+- `GET /devices/` - List all devices
+- `POST /devices/` - Create new device
+- `GET /devices/{id}` - Get device by ID
+- `PUT /devices/{id}` - Update device
+- `DELETE /devices/{id}` - Delete device
+
+## 📅 Development Timeline
+
+### Day 1 ✅ (January 21, 2025)
+- Project initialization
+- Backend API implementation
+- Frontend dashboard
+- Docker setup
+- Basic CRUD operations
+
+### Day 2 (Planned)
+- [ ] WebSocket real-time updates
+- [ ] Alert system (low battery warnings)
+- [ ] Unit & integration tests
+- [ ] GitHub Actions CI/CD
+- [ ] Additional API endpoints
+
+### Day 3-7 (Planned)
+- Kubernetes deployment
+- Terraform IaC
+- Advanced monitoring (Prometheus/Grafana)
+- Performance optimization
+- Documentation
+
+## 🎓 Built For
+
+This project is built as part of my application for:
+
+1. **Bear Robotics** - Software & Test Engineering Intern
+2. **Chartmetric** - Backend/Frontend Engineering Intern
+3. **Platoon** - Full-stack Engineering Intern
+
+### Why This Project?
+
+**For Bear Robotics**: Demonstrates understanding of real-time monitoring systems, similar to robot fleet management in restaurant environments.
+
+**For Chartmetric**: Shows full-stack capabilities with TypeScript, React, and backend API development.
+
+**For Platoon**: Exhibits enterprise-grade infrastructure practices and B2B SaaS deployment experience.
+
+## 👨‍💻 Author
+
+**[Your Name]**
+- GitHub: [@mcha311](https://github.com/mcha311)
+- Email: [your-email]
+
+## 📝 License
+
+MIT License - feel free to use this project for learning!
+
+---
+
+⭐ If you find this project helpful, please consider giving it a star!
