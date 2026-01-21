@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
-from .routers import devices
+from .routers import devices, alerts
 
 # 데이터베이스 테이블 생성
 Base.metadata.create_all(bind=engine)
@@ -18,6 +18,7 @@ app.add_middleware(
 
 # 라우터 등록
 app.include_router(devices.router)
+app.include_router(alerts.router)
 
 @app.get("/")
 def read_root():
