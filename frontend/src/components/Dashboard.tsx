@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
-import { Activity, Server, AlertCircle, Wifi, WifiOff } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Activity, Server, AlertCircle } from 'lucide-react'
+import axios from 'axios'
 
 interface Device {
   id: number
@@ -13,56 +14,30 @@ interface Device {
   last_updated: string
 }
 
-const WS_URL = 'ws://localhost:8000/ws'
+const API_URL = 'http://localhost:8000'
 
 export default function Dashboard() {
   const [devices, setDevices] = useState<Device[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [wsConnected, setWsConnected] = useState(false)
-  const wsRef = useRef<WebSocket | null>(null)
 
   useEffect(() => {
-    const connectWebSocket = () => {
-      const ws = new WebSocket(WS_URL)
-      
-      ws.onopen = () => {
-        console.log('WebSocket connected')
-        setWsConnected(true)
-        setError(null)
-      }
-      
-      ws.onmessage = (event) => {
-        const message = JSON.parse(event.data)
-        if (message.type === 'devices_update') {
-          setDevices(message.data)
-          setLoading(false)
-        }
-      }
-      
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error)
-        setWsConnected(false)
-        setError('WebSocket connection failed')
-      }
-      
-      ws.onclose = () => {
-        console.log('WebSocket disconnected')
-        setWsConnected(false)
-        setTimeout(connectWebSocket, 3000)
-      }
-      
-      wsRef.current = ws
-    }
-    
-    connectWebSocket()
-    
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close()
-      }
-    }
+    fetchDevices()
+    const interval = setInterval(fetchDevices, 5000)
+    return () => clearInterval(interval)
   }, [])
+
+  const fetchDevices = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/devices/`)
+      setDevices(response.data)
+      setLoading(false)
+      setError(null)
+    } catch (err) {
+      setError('Failed to fetch devices')
+      setLoading(false)
+    }
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -94,27 +69,10 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto p-6">
       <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">
-              Enterprise Monitoring Platform
-            </h1>
-            <p className="text-gray-600">Real-time device monitoring dashboard</p>
-          </div>
-          <div className="flex items-center gap-2">
-            {wsConnected ? (
-              <>
-                <Wifi className="w-5 h-5 text-green-500" />
-                <span className="text-sm text-green-600 font-medium">Live</span>
-              </>
-            ) : (
-              <>
-                <WifiOff className="w-5 h-5 text-red-500" />
-                <span className="text-sm text-red-600 font-medium">Disconnected</span>
-              </>
-            )}
-          </div>
-        </div>
+        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          Enterprise Monitoring Platform
+        </h1>
+        <p className="text-gray-600">Real-time device monitoring dashboard</p>
       </div>
 
       {error && (
@@ -122,33 +80,6 @@ export default function Dashboard() {
           {error}
         </div>
       )}
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white rounded-lg shadow p-4">
-          <div className="text-sm text-gray-600">Total Devices</div>
-          <div className="text-2xl font-bold">{devices.length}</div>
-        </div>
-        <div className="bg-white rounded-lg shadow p-4">
-          <div className="text-sm text-gray-600">Online</div>
-          <div className="text-2xl font-bold text-green-600">
-            {devices.filter(d => d.is_online).length}
-          </div>
-        </div>
-        <div className="bg-white rounded-lg shadow p-4">
-          <div className="text-sm text-gray-600">Offline</div>
-          <div className="text-2xl font-bold text-red-600">
-            {devices.filter(d => !d.is_online).length}
-          </div>
-        </div>
-        <div className="bg-white rounded-lg shadow p-4">
-          <div className="text-sm text-gray-600">Avg Battery</div>
-          <div className="text-2xl font-bold text-blue-600">
-            {devices.length > 0 
-              ? (devices.reduce((acc, d) => acc + d.battery_level, 0) / devices.length).toFixed(1)
-              : 0}%
-          </div>
-        </div>
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {devices.map((device) => (
