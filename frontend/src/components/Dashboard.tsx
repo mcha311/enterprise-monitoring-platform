@@ -4,8 +4,6 @@ import axios from 'axios'
 import AlertPanel from './AlertPanel'
 import Statistics from './Statistics'
 
-
-
 interface Device {
   id: number
   name: string
@@ -26,18 +24,22 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<'all' | 'robot' | 'server'>('all')
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive' | 'error'>('all')
-
-  
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     fetchDevices()
     const interval = setInterval(fetchDevices, 5000)
     return () => clearInterval(interval)
-  }, [])
+  }, [searchQuery, filter, statusFilter])
 
   const fetchDevices = async () => {
     try {
-      const response = await axios.get(`${API_URL}/devices/`)
+      const params = new URLSearchParams()
+      if (searchQuery) params.append('search', searchQuery)
+      if (filter !== 'all') params.append('type_filter', filter)
+      if (statusFilter !== 'all') params.append('status_filter', statusFilter)
+      
+      const response = await axios.get(`${API_URL}/devices/?${params}`)
       setDevices(response.data)
       setLoading(false)
       setError(null)
@@ -46,12 +48,6 @@ export default function Dashboard() {
       setLoading(false)
     }
   }
-
-  const filteredDevices = devices.filter(device => {
-    const typeMatch = filter === 'all' || device.type === filter
-    const statusMatch = statusFilter === 'all' || device.status === statusFilter
-    return typeMatch && statusMatch
-  })
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -79,8 +75,6 @@ export default function Dashboard() {
       </div>
     )
   }
-  
-  
 
   return (
     <div className="container mx-auto p-6">
@@ -101,6 +95,17 @@ export default function Dashboard() {
       )}
 
       <div className="flex gap-4 mb-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search devices..."
+            className="border border-gray-300 rounded-lg px-4 py-2 w-64"
+          />
+        </div>
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
           <select
@@ -129,9 +134,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredDevices.map((device) => (
+        {devices.map((device) => (
           <div key={device.id} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
@@ -185,7 +189,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {filteredDevices.length === 0 && (
+      {devices.length === 0 && (
         <div className="text-center py-12">
           <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600 text-lg">No devices found</p>
