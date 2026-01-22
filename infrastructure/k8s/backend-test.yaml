@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-test
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-test
+  template:
+    metadata:
+      labels:
+        app: backend-test
+    spec:
+      containers:
+      - name: backend
+        image: enterprise-monitoring-platform-backend:latest
+        imagePullPolicy: Never
+        command: ["sleep", "3600"]  # 그냥 켜두기만
+        env:
+        - name: DATABASE_URL
+          value: "mysql+pymysql://root:rootpassword@mysql.monitoring.svc.cluster.local:3306/monitoring_db"
