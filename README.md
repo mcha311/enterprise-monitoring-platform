@@ -70,7 +70,13 @@ npm run dev
 - [x] Responsive card layout
 - [x] Auto-refresh every 5 seconds
 
-## 🎨 Screenshots
+### Day 2 (Completed ✅)
+- [x] Alert System
+- [x] Statistics Dashboard
+- [x] Filtering System
+- [x] Backend Testing
+- [x] GitHub Actions CI
+
 
 ### Dashboard
 ![Dashboard](screenshots/dashboard.png)
