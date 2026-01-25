@@ -43,3 +43,8 @@
 - Advanced monitoring (Prometheus/Grafana)
 - Performance optimization
 - Documentation
+
+<img width="1780" height="1584" alt="image" src="https://github.com/user-attachments/assets/cd2e33b2-e286-4376-a02a-b1f35f0814ce" />
+
+<img width="1792" height="1508" alt="image" src="https://github.com/user-attachments/assets/2d3cdea2-6997-46a6-8c5f-473a99388be2" />
+
