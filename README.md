@@ -1,8 +1,5 @@
 # Enterprise Monitoring Platform
 
-Real-time device monitoring system built for **Bear Robotics**, **Chartmetric**, and **Platoon** internship applications.
-
-
 ## 🛠 Tech Stack
 
 ### Backend
