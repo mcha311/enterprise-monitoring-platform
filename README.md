@@ -21,13 +21,6 @@
 - **Docker** - Containerization
 - **Docker Compose** - Multi-container orchestration
 
-## 🚀 Quick Start
-
-### Prerequisites
-- Docker & Docker Compose
-- Node.js 18+
-- Git
-
 
 ## 📅 Development Timeline
 
@@ -44,7 +37,7 @@
 - GitHub Actions CI/CD
 - Additional API endpoints
 
-### Day 3-7 (Planned)
+### Day 3-7
 - Kubernetes deployment
 - Terraform IaC
 - Advanced monitoring (Prometheus/Grafana)
