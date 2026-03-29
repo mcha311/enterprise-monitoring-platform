@@ -2,10 +2,6 @@
 
 Cloud-native microservices observability platform with real-time dashboards, automated alerting, Kubernetes deployment, and AWS infrastructure via Terraform.
 
-<img width="1780" height="1584" alt="image" src="https://github.com/user-attachments/assets/cd2e33b2-e286-4376-a02a-b1f35f0814ce" />
-
-<img width="1792" height="1508" alt="image" src="https://github.com/user-attachments/assets/2d3cdea2-6997-46a6-8c5f-473a99388be2" />
-
 ---
 
 ## What It Does
@@ -189,5 +185,7 @@ enterprise-monitoring-platform/
 ## Development Timeline
 This project served as the foundation for [Servi Fleet Manager](https://github.com/mcha311/servi-fleet-manager), which extended the same infrastructure patterns with ROS2 robotics integration.
 
+<img width="1780" height="1584" alt="image" src="https://github.com/user-attachments/assets/cd2e33b2-e286-4376-a02a-b1f35f0814ce" />
 
+<img width="1792" height="1508" alt="image" src="https://github.com/user-attachments/assets/2d3cdea2-6997-46a6-8c5f-473a99388be2" />
 
